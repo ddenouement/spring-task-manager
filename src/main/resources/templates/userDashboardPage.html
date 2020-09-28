@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hi, user</title>
+</head>
+<body>
+<div sec:authorize="hasRole('ROLE_USER')">
+    This content is only shown to users.
+</div>
+<div sec:authorize="hasRole('USER')">
+    This content is only shown to users1.
+</div>
+
+</body>
+</html>
