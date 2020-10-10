@@ -40,7 +40,7 @@ public class RedirectOnLoginSuccessHandler extends SimpleUrlAuthenticationSucces
         if (roles.contains("ROLE_ADMIN")) {
             url = "/admin/dashboard";
         } else if (roles.contains("ROLE_USER")) {
-            url = "/user/dashboard";
+            url = "/users/dashboard";
         } else {
             url = "/login?error";
         }

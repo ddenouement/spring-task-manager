@@ -2,8 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"  th:href="@{/css/bootstrap.css}" type="text/css"/>
+    <link href="/css/custom/home.css"  rel="stylesheet"  type="text/css"/>
 </head>
 <body>
+
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="container">
 <h1>Login page</h1>
 <p th:if="${error}" class="error" th:text="${error}"></p>
 <p th:if="${message}" class="message" th:text="${message}"></p>
@@ -14,5 +21,10 @@
     <input type="password" id="password" name="password" /> <br />
     <input type="submit" value="Log in" />
 </form>
+
+</div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" th:href="@{/js/bootstrap.js}"  type="application/javascript; charset=UTF-8"></script>
+
 </body>
 </html>

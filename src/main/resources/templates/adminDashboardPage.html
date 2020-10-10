@@ -3,10 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Hi, admin</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"  th:href="@{/css/bootstrap.css}" type="text/css"/>
+    <link href="/css/custom/home.css"  rel="stylesheet"  type="text/css"/>
 </head>
 <body>
+
+
+<div th:replace="fragments/header :: header"></div>
+
 <div sec:authorize="hasRole('ADMIN')">
     This content is only shown to administrators.
 </div>
+
+
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" th:href="@{/js/bootstrap.js}"  type="application/javascript; charset=UTF-8"></script>
+
 </body>
 </html>

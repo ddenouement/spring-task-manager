@@ -1,10 +1,17 @@
 package com.example.taskmanager;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@EnableJpaRepositories("com.example.taskmanager.dao")
+@EntityScan(basePackages = {"com.example.taskmanager.model"})
+@EnableConfigurationProperties
+@SpringBootApplication//(exclude = {DataSourceAutoConfiguration.class })
 public class TaskManagerApplication {
 
 	public static void main(String[] args) {

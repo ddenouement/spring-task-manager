@@ -1,6 +1,5 @@
 package com.example.taskmanager.security;
 
-import com.example.taskmanager.service.IUserService;
 import com.example.taskmanager.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,14 +9,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -46,13 +40,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/welcome", "/auth**").permitAll()
                 .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/static/favicon.ico").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/static/css/custom").permitAll()
                 .and()
                 .formLogin().loginPage("/login").successHandler(customSuccessHandler)
                 .failureUrl("/login?error")
                 .usernameParameter("login").passwordParameter("password")
                 .and()
-                .logout().logoutSuccessUrl("/login?logout");
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/");
+         //       .logout().logoutSuccessUrl("/login?logout");
 
     }
 
