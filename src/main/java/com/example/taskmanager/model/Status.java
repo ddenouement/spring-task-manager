@@ -1,11 +1,7 @@
 package com.example.taskmanager.model;
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
-
 public enum  Status {
 
-    CREATED, REJECTED, ACCEPTED;
+    REQUESTED_ADD, REQUESTED_REMOVE, ASSIGNED, FINISHED, CANCELLED, REJECTED;
 
     public String getName() {
         return name().toUpperCase();

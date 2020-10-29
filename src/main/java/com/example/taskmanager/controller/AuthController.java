@@ -14,12 +14,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 @Controller
 public class AuthController {
     @Autowired
     IAuthService service;
+
+  //  @RequestMapping(value = { "/changeLanguage"}, method = RequestMethod.POST)
+    public String language(HttpServletRequest request) {
+
+        String referer = request.getHeader("Referer");
+        return "redirect:"+ referer;
+    }
 
 
     @RequestMapping(value = { "/register"}, method = RequestMethod.GET)
@@ -48,6 +58,9 @@ public class AuthController {
     @RequestMapping(value = { "/"}, method = RequestMethod.GET)
     public ModelAndView welcomePage() {
         ModelAndView model = new ModelAndView();
+        Locale locale = new Locale("ua");
+        ResourceBundle m = ResourceBundle.getBundle("lang",locale) ;
+        model.addObject("message", m.getString("sitename"));
         model.setViewName("home.html");
         return model;
     }

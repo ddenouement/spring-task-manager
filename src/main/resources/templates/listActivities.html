@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ACTIVITIES</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+
+<div class="container" style="margin: auto; margin-top: 100px;">
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <a class="btn btn-success" href="/activities/add">ADD ACTIVITY</a>
+        <a class="btn btn-success" href="/categories/add">ADD CATEGORY</a>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <form th:object="${filter}" id="activities" action="/activities" method="GET">
+                <p th:text="#{sort}"/>
+                <input type="radio" id="ppl" th:field="*{sort}" name="sort" value="0" th:selected="0 eq ${filter.sort}">
+                <label for="ppl">people</label><br>
+
+                <input type="radio" id="name" th:field="*{sort}" name="sort" value="1"
+                       th:selected="1 eq ${filter.sort}">
+                <label for="name">name</label>
+                <p th:text="#{filter}"/>
+                <select class="form-control" th:field="*{categoryIds}" multiple>
+                    <option th:each="s : ${categories}"
+                            th:value="${s.id}"
+                            th:text="${s.name}"
+                            th:selected="${#lists.contains(filter.categoryIds, s.id)}">
+                    </option>
+                </select>
+                <button type="submit" class="btn btn-info">FIND</button>
+            </form>
+        </div>
+        <div class="col">
+            <form th:if="${currentPage != 0}"  th:object="${filter}" id="prev" th:action="@{'/activities'}" method="GET">
+                <input hidden name="sort" th:field="${filter.sort}"/>
+                <input hidden name="page" th:value="${currentPage-1}"/>
+                <input th:field="*{categoryIds}" type="hidden"/>
+                <button type="submit" class="btn btn-info">PREVIOUS</button>
+            </form>
+            <form th:if="${currentPage < noOfPages-1}" th:object="${filter}" id="next" th:action="@{'/activities'}" method="GET">
+                <input hidden name="sort" th:field="${filter.sort}">
+                <input hidden name="page" th:value="${currentPage+1}">
+                <input th:field="*{categoryIds}" type="hidden"/>
+                <button type="submit" class="btn btn-info">NEXT</button>
+            </form>
+
+            <div>
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="task : ${activities}">
+                        <a th:href="@{'/activities/'+${task.id}}">
+                            <h3 th:text="${#locale.toString()}=='ua'? ${task.nameUa} : ${task.nameEn}">
+                            </h3>
+                        </a>
+                        <p>
+                        <span th:each="c : ${task.categories}" class="badge badge-info ml-1"
+                              th:text=" ${c.name} "> </span>
+                        </p>
+                        <p th:text="${#locale.toString()}=='ua'? ${task.descriptionUa} : ${task.descriptionEn}"></c:out></p>
+                        <p>People working: <span th:text="${task.people !=null? task.people : 0}"/></p>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>

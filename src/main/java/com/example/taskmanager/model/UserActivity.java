@@ -2,21 +2,28 @@ package com.example.taskmanager.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @Table(name = "user_activity")
 public class UserActivity {
+    public UserActivity (){
+
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
 
     @Column(name = "time_elapsed_hrs ", nullable = true)
@@ -24,6 +31,16 @@ public class UserActivity {
 
     @Column(name = "date_end", nullable = true)
     private ZonedDateTime finishedOn;
+
+
+
+    public Date finishedDate(){
+        if(finishedOn==null) return null;
+        return Date.from(finishedOn.toInstant());
+    }
+
+    @Column(name = "created_request_at", nullable = false)
+    private ZonedDateTime createdOn;
 
     //mappings
 
@@ -35,12 +52,9 @@ public class UserActivity {
     @JoinColumn(name="id_activity", nullable=false)
     private Activity activity;
 
-    @OneToMany(mappedBy="task")
-    private Set<Request> requests = new HashSet<Request>(); ;
 
-
-    @Column(name="progress")
+    @Column(name="status")
     @Enumerated(EnumType.STRING )
-    private Progress progress;
+    private Status status;
 
 }

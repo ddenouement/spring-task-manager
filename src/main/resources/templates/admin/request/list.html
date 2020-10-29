@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <title>REQUESTS</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container" style="margin-top: 100px;">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#requested">Requested to add</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#req_cancel">Requested to cancel</a>
+        </li>
+
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="requested">
+            <ul>
+                <li th:each="task: ${requested}" class="list-group-item">
+                    <a href="@{'/users/' + ${task.getUser().getId()}}">
+                        <p th:text="${task.getUser().getName()}"></p>
+                    </a>
+                    ADD TO
+                    <a href="@{'/activity/' + ${task.getActivity().getId()}}">
+                        <p th:text="${task.getActivity().getName()}"></p>
+                    </a>
+                    <p th:text="${task.getCreatedOn()}"></p>
+                    <form action="@{'/tasks/accept/'+ ${task.getId()}}">
+                        <input type="submit" value="ACCEPT"/>
+                    </form>
+                    <form action="@{'/tasks/reject/'+ ${task.getId()}}">
+                        <input type="submit" value="REJECT"/>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-pane fade" id="req_cancel">
+            <ul>
+                <li th:each="task: ${requested_cancel}" class="list-group-item">
+                    <a href="@{'/users/' + ${task.getUser().getId()}}">
+                        <p th:text="${task.getUser().getName()}"></p>
+                    </a>
+                    REMOVE FROM
+                    <a href="@{'/activity/' + ${task.getActivity().getId()}}">
+                        <p th:text="${task.getActivity().getName()}"></p>
+                    </a>
+                    <p th:text="${task.getCreatedOn()}"></p>
+                    <form action="@{'/tasks/do_cancel/'+ ${task.getId()}}">
+                        <input type="submit" value="OK"/>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="js/functions.js"></script>
+</body>
+</html>

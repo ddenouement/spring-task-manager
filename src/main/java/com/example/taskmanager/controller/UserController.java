@@ -1,6 +1,9 @@
 package com.example.taskmanager.controller;
 
+import com.example.taskmanager.dao.ITaskRepository;
+import com.example.taskmanager.model.Status;
 import com.example.taskmanager.model.User;
+import com.example.taskmanager.service.ITaskService;
 import com.example.taskmanager.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,22 +18,27 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
     @Autowired
     IUserService userService;
+    @Autowired
+    ITaskService taskService;
 
-    @RequestMapping(value = { "/dashboard"}, method = RequestMethod.GET)
-    public ModelAndView userDashboardPage(  @AuthenticationPrincipal UserDetails currentUser ) {
+
+    @RequestMapping(value = { "/me"}, method = RequestMethod.GET)
+    public ModelAndView userProfilePage(  @AuthenticationPrincipal UserDetails currentUser ) {
 
         User user =  userService.findUserByLogin(currentUser.getUsername());
         ModelAndView model = new ModelAndView();
         model.addObject("currentUser", user);
-        model.setViewName("userDashboardPage.html");
+
+        model.setViewName("user/profile.html");
         return model;
     }
 
-    @RequestMapping(value = { "/"}, method = RequestMethod.GET)
-    public ModelAndView getAllUsers() {
+
+    @RequestMapping( method = RequestMethod.GET)
+    public ModelAndView getAllUsers(@AuthenticationPrincipal UserDetails currentUser) {
         ModelAndView model = new ModelAndView();
         model.addObject("users", userService.findAllUsers());
-        model.setViewName("getAllUsers.html");
+        model.setViewName("/admin/user/list.html");
         return model;
     }
 

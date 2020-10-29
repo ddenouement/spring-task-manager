@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Hi, admin</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+    <link href="/css/custom/home.css"  rel="stylesheet"  type="text/css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container" style="width: 60%; margin: auto; margin-top: 100px;">
+<div sec:authorize="hasRole('ADMIN')">
+
+    <p><span class="label label-warning">Current statistics:</span></p>
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-info" role="alert">Number of users: <p th:text="${numUsers}"/></div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-info" role="alert">Number of requests waiting:  <p th:text="${numRequestsWaiting}"/></div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-info" role="alert">Number of activities: <p th:text="${numActivities}"/></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="alert alert-info" role="alert">Average hours spent on activities:</div>
+                <div class="card" th:each="pair: ${mapOfAverageTimes}">
+                    <div class="card-body">
+                        <br th:text="${pair.key} : ${pair.value}">hrs</br>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="js/functions.js"></script>
+
+</body>
+</html>

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{login}"></title>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
     <link href="/css/custom/home.css"  rel="stylesheet"  type="text/css"/>
 </head>
@@ -9,20 +10,16 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-
 <div class="container" style="width: 60%; margin: auto; margin-top: 100px;">
-<p th:if="${error}" class="error" th:text="${error}"></p>
-<p th:if="${message}" class="message" th:text="${message}"></p>
-<form th:action="@{/login}" method="post">
-    <label for="login" th:text="#{login}"></label>:
-    <input type="text" id="login" name="login" autofocus="autofocus" /> <br />
-    <label for="password" th:text="#{password}"></label>:
-    <input type="password" id="password" name="password" /> <br />
-    <input type="submit" th:value="#{login}" />
-</form>
-
+<div sec:authorize="hasRole('ROLE_USER')">
+    <h4 th:text="${currentUser.getName()}+' '+${u.getLastName()}"></h4>
+    <p th:text="${currentUser.getLogin()}"></p>
+    <p th:text="${currentUser.getEmail()}"></p>
 </div>
 
+
+
+</div>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>

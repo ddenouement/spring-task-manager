@@ -1,49 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Register page</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"  th:href="@{/css/bootstrap.css}" type="text/css"/>
-  </head>
+    <title th:text="#{register}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+
+</head>
 <body>
 
 <div th:replace="fragments/header :: header"></div>
 
 
-<div class="container">
+<div class="container" style="width: 60%; margin: auto; margin-top: 100px;">
     <h1>Login page</h1>
     <p th:if="${error}" class="error" th:text="${error}"></p>
     <p th:if="${message}" class="message" th:text="${message}"></p>
     <form th:action="@{/register}" method="post">
-        <label for="login">Login</label>:
+        <label for="login" th:text="#{login}"></label>:
         <input type="text" id="login" name="login" required autofocus="autofocus" /> <br />
 
-        <label for="firstName">Name</label>:
+        <label for="firstName" th:text="#{name}"></label>:
         <input type="text" id="firstName" name="firstName" required/> <br />
 
-        <label for="lastName">Last Name</label>:
+        <label for="lastName" th:text="#{lastname}"></label>:
         <input type="text" id="lastName" name="lastName" required /> <br />
 
-        <label for="email">Email</label>:
+        <label for="email" th:text="#{email}"></label>:
         <input type="text" id="email" name="email" required/> <br />
 
-        <label for="roleId">Choose a role:</label>
+        <label for="roleId" th:text="#{role}">:</label>
         <select id="roleId" name="roleId">
             <option value="1">Admin</option>
             <option value="2">User</option>
         </select>
 
-
-
-        <label for="password">Password</label>:
+        <label for="password" th:text="#{password}"></label>:
         <input type="password" id="password" name="password" /> <br />
 
 
-        <input type="submit" value="Register" />
+        <input type="submit"  th:value="#{register}" />
     </form>
 
 </div>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" th:href="@{/js/bootstrap.js}"  type="application/javascript; charset=UTF-8"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="js/functions.js"></script>
 
 </body>
 </html>

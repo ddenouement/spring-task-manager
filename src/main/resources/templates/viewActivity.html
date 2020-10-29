@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Activity</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+
+<div style="width: 60%; margin: auto; margin-top: 100px;">
+    <h2 th:text="${#locale.toString()}=='ua'?  ${activity.nameUa} : ${activity.nameEn}"/>
+    <p >
+        <span th:each="c : ${activity.categories}" class="badge badge-info ml-1" th:text=" ${c.name} "> </span>
+         <span class="badge badge-warning ml-1" th:text="${activity.enabled}"></span>
+    </p>
+    <h4 th:text="${#locale.toString()}=='ua'? ${activity.descriptionUa} : ${activity.descriptionEn}"/>
+
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <a class="btn btn-primary" th:href="@{'/activities/'+ ${activity.getId()}+'/edit'}" role="button">EDIT</a>
+
+        <form th:if="${activity.enabled}" th:object="${activity}" method="POST" action="/activities/disable" style="margin-bottom: 10px;">
+            <input hidden name="id" th:value="*{id}">
+            <button class="btn btn-danger" type="submit" style="margin-bottom: 10px;">
+                SET INACTIVE
+            </button>
+        </form>
+        <p th:if="${activity.enabled}" class="text-danger">WARNING: if you disable activity, users won`t be able to subscribe to it.</p>
+        <form th:if="${not activity.enabled}" th:object="${activity}" method="POST" action="/activities/enable" style="margin-bottom: 10px;">
+            <input hidden name="id" th:value="*{id}">
+            <button class="btn btn-success" type="submit" style="margin-bottom: 10px;">
+                SET ACTIVE
+            </button>
+        </form>
+
+    </div>
+
+    <div sec:authorize="hasRole('ROLE_USER')">
+        <form id="create_request" action="/tasks/enroll" method="POST">
+            <input type="hidden" name="id" value="${activity.id}"/>
+            <input type="submit" class="btn btn-success" value="#{enroll_me_to_activity}"/>"/>
+        </form>
+    </div>
+</div>
+
+<form style="width: 60%; margin: 0 auto;" method="GET" th:action="@{'/activities/'+${activity.id}}">
+    <select name="progress" class="form-control">
+        <option th:each="pro: ${progresses}" th:value="${pro.getName()}" th:text="#{${pro.name}}" th:selected="${pro.name} eq ${filterByProgress}">
+
+        </option>
+    </select>
+    <button type="submit" class="btn btn-primary">FILTER</button>
+</form>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col" th:text="#{name}">
+        </th>
+        <th scope="col" th:text="#{lastname}">
+        </th>
+        <th scope="col" th:text="#{email}">
+        </th>
+        <th scope="col" th:text="#{date_end}">
+        </th>
+        <th scope="col" th:text="#{hrs}">
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task: ${tasks}">
+        <td>
+            <a th:href="@{'/users/' + ${task.user.id}}" th:text="${task.user.firstName}"
+            />
+        </td>
+        <td>
+            <a th:href="@{'/users/' + ${task.user.id}}" th:text="${task.user.lastName}"
+            />
+        </td>
+        <td>
+            <p th:text="${task.user.email}"></p>
+        </td>
+        <td>
+                <p th:if="${task.finishedDate() != null}" type="date" th:text="${#dates.format(task.finishedDate(), 'dd-MMM-yyyy')"/>
+        </td>
+        <td>
+            <p th:if="${task.timeSpentInHours != 0}" th:text="${task.timeSpentInHours}"></p>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
