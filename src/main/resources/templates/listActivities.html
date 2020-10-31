@@ -13,8 +13,7 @@
 <div class="container" style="margin: auto; margin-top: 100px;">
     <div sec:authorize="hasRole('ROLE_ADMIN')">
         <a class="btn btn-success" href="/activities/add">ADD ACTIVITY</a>
-        <a class="btn btn-success" href="/categories/add">ADD CATEGORY</a>
-    </div>
+     </div>
 
     <div class="row">
         <div class="col">
@@ -61,6 +60,8 @@
                         <p>
                         <span th:each="c : ${task.categories}" class="badge badge-info ml-1"
                               th:text=" ${c.name} "> </span>
+                            <span class="badge badge-warning ml-1" th:text="${task.enabled}"></span>
+
                         </p>
                         <p th:text="${#locale.toString()}=='ua'? ${task.descriptionUa} : ${task.descriptionEn}"></c:out></p>
                         <p>People working: <span th:text="${task.people !=null? task.people : 0}"/></p>

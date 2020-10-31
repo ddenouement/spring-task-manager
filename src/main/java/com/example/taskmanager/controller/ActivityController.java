@@ -154,8 +154,7 @@ public class ActivityController {
     @RequestMapping(value = {"/edit"}, method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ModelAndView editActivity(@AuthenticationPrincipal UserDetails currentUser,
                                      ActivityDTO editedActivity) {
-        activityService.saveDTO(editedActivity);
+         activityService.saveDTO(editedActivity);
         return new ModelAndView("redirect:/activities");
-        //return getAllActivities(Optional.empty(), Optional.empty());
     }
 }

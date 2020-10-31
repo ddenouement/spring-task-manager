@@ -34,7 +34,7 @@ public class Category {
     private Set<Activity> activities = new HashSet<Activity>();
 
     @PreRemove
-    private void removeActivitiesFromCategories() {
+    public void removeActivitiesFromCategories() {
          for (Activity u : activities) {
             u.getCategories().remove(this);
         }

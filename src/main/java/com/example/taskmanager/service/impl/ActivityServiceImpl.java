@@ -16,13 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -73,7 +68,7 @@ public class ActivityServiceImpl implements IActivityService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(filterDTO.getSortBy().name().toLowerCase()));
         if (filterDTO.getCategoryIds() == null || filterDTO.getCategoryIds().isEmpty()) {
             result = activityRepository.findByEnabledTrue(pageable);
-            
+
             System.out.print("HERE");
             return result.toSet();
         } else {
@@ -95,8 +90,11 @@ public class ActivityServiceImpl implements IActivityService {
 
     @Override
     public Activity saveDTO(ActivityDTO dto) {
-        //  Set<Category> c = new HashSet<Category>((ArrayList) categoryRepository.findAllById(dto.getCategoryIds()));
-        List c = ((ArrayList) categoryRepository.findAllById(dto.getCategoryIds()));
+        List<Category> c;
+        if (dto.getCategoryIds() == null || dto.getCategoryIds().isEmpty()) {
+            c = new ArrayList();
+        }
+        c = ((ArrayList) categoryRepository.findAllById(dto.getCategoryIds()));
 
         Activity activity1 = Activity.builder()
                 .id(dto.getId())
@@ -118,7 +116,7 @@ public class ActivityServiceImpl implements IActivityService {
         Map<String, Double> result = found.stream()
                 .collect(Collectors.groupingBy(a -> a.getActivity().getName(),
                         Collectors.averagingInt(UserActivity::getTimeSpentInHours)));
-        return  result;
+        return result;
     }
 
     @Override
@@ -129,18 +127,18 @@ public class ActivityServiceImpl implements IActivityService {
         } else {
             result = activityRepository.countByCategories_IdIn(filterDTO.getCategoryIds());
         }
-        return  result;
+        return result;
     }
 
     @Override
     public long countActiveFiltered(FilterDTO filterDTO) {
         long result;
-         if (filterDTO.getCategoryIds() == null || filterDTO.getCategoryIds().isEmpty()) {
+        if (filterDTO.getCategoryIds() == null || filterDTO.getCategoryIds().isEmpty()) {
             result = activityRepository.countByEnabledTrue();
         } else {
             result = activityRepository.countByEnabledTrueAndCategories_IdIn(filterDTO.getCategoryIds());
         }
-        return  result;
+        return result;
     }
 
 }

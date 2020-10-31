@@ -16,6 +16,7 @@
 
     <form th:object="${activity}" id="create-activity" style="line-height: 10px" th:action="@{/activities/edit}" method="POST"
           accept-charset="UTF-8">
+        <input hidden  name="id" th:value="*{id}" />
         <div class="form-group">
             <label for="name">Name</label>
             <input required type="text" th:value ="*{name}" class="form-control" th:field="*{name}" id="name" name="name">

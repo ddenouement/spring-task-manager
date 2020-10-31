@@ -28,7 +28,7 @@ public class Activity {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "enabled", nullable = false,  columnDefinition = "BOOLEAN")
@@ -71,8 +71,8 @@ public class Activity {
 
     //mappings
     @ManyToMany
-    //@Cascade(value = org.hibernate.annotations.CascadeType.DELETE_ORPHAN)
-  /*  @JoinTable(
+    @Cascade(value = org.hibernate.annotations.CascadeType.MERGE)
+   /*  @JoinTable(
             name = "activity_category",
             joinColumns = {@JoinColumn(name = "activity_id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id")}
